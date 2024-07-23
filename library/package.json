@@ -1,0 +1,26 @@
+{
+  "name": "waltid-js-sdk",
+  "private": true,
+  "scripts": {
+    "start": "watch \"npm run build\" ./src",
+    "build": "mitosis build --c mitosis.config.cjs",
+    "lint": "eslint"
+  },
+  "type": "module",
+  "exports": {
+    "./*": "./output/*/src/index.js"
+  },
+  "devDependencies": {
+    "@types/qrcode": "^1.5.5",
+    "@types/uuid": "^10.0.0"
+  },
+  "dependencies": {
+    "@builder.io/eslint-plugin-mitosis": "^0.0.15",
+    "@builder.io/mitosis": "latest",
+    "@builder.io/mitosis-cli": "latest",
+    "axios": "^1.7.2",
+    "eslint": "^8.51.0",
+    "qrcode": "^1.5.3",
+    "uuid": "^10.0.0"
+  }
+}
