@@ -14,6 +14,7 @@ The Waltid JS SDK is a collection of libraries that allow you to interact with t
 1. Run Mitosis in watch mode
 
 ```bash
+npm install
 cd library
 npm run start
 ```
