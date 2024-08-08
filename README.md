@@ -1,12 +1,14 @@
 # walt.id JS SDK
 
-UI components for digital ID use-cases powered by walt.id's Open-Source digital ID and wallet infrastructure.
+UI components for digital ID use-cases powered by [walt.id's Open-Source digital ID and wallet infrastructure](https://walt.id/identity-infrastructure).
 Issue or verify digital ID credentials by rendering QR codes or links via pre-build model and button components.
 Configure credential types to issue or verify, provide redirect URIs for success events, and adjust the
 styling to your needs via component props. No need to understand and write complex issuance and verification requests or
 custom frontend components. A few minutes, and your ID use case is ready to present.
 
-For more fine-grained customization, the components expose the walt.id's complete issuer and verifier API interfaces to
+For more fine-grained customization, the components expose the walt.id's
+complete [issuer](https://docs.walt.id/issuer/api/getting-started)
+and [verifier](https://docs.walt.id/verifier/api/getting-started) API interfaces to
 be able to handle even the most complex use cases.
 
 The components offered are available for React and Vue.
@@ -17,21 +19,22 @@ options.
 
 ## Get Started
 
-You can checkout example apps showcasing the usage of the different components, here.
+You can checkout example apps showcasing the usage of the different components, [here](https://github.com/walt-id/waltid-js-sdk/tree/main/test-apps).
 
-Below are some basic examples in React to help you get started with the Issuance and Credentials buttons. When you click these
+Below are some basic examples in React to help you get started with the Issuance and Credentials buttons. When you click
+these
 buttons, a model will appear showing a QR code and a link. You can scan the QR code or click the link to either receive
 and present credentials.
 
 ![Showcasing QR code model after button click.](https://github.com/user-attachments/assets/7187e4f9-6797-4944-92be-0e0f4792837a)
 
-## Install Dependency 
-Use the command below to install the React version of the SDK in your project. 
+## Install Dependency
+
+Use the command below to install the React version of the SDK in your project.
 
 ```bash
 npm i waltid-react-components
 ```
-
 
 ### Issue Credentials
 
@@ -39,13 +42,11 @@ npm i waltid-react-components
 <IssuanceButton credentials={[{ "type": "eID" }]} />
 ```
 
-
 ### Verify Credentials
 
 ```React
 <VerificationButton credentialTypes={["eID"]} />
 ```
-
 
 ## For Maintainers
 
