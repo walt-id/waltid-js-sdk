@@ -6,7 +6,7 @@ interface ModalProps {
     qrCodeData: string;
     dialogTitle: string;
     dialogDescription: string;
-    walletRedirect?: { url?: string, path?: string, oidcUrl?: string, target?: string };
+    walletRedirect?: { url?: string, path: string, offerUrl: string, target?: string };
     onClose: (event: any) => void;
 }
 
@@ -18,8 +18,8 @@ export default function Modal(props: ModalProps) {
         },
         redirectToWallet() {
             if (!props.walletRedirect) return
-            const { url, path, oidcUrl, target } = props.walletRedirect
-            window.open(state.walletUrlBuilder(url ?? 'https://wallet.walt.id', path ?? '"api/siop/initiateIssuance', oidcUrl ?? ''), target ?? '_self')
+            const { url, path, offerUrl, target } = props.walletRedirect
+            window.open(state.walletUrlBuilder(url ?? 'https://wallet.walt.id', path, offerUrl), target ?? '_self')
         }
     });
 

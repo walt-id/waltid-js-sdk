@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { v4 as uuidv4 } from 'uuid';
-import { DIDMethodsConfig } from '../types/dids';
-import type { Credential } from '../types/credentials';
+import { DIDMethods, DIDMethodsConfig } from '../types/dids';
+import { CredentialFormats, type Credential } from '../types/credentials';
 
 function sdPayload(fields: { [key: string]: any; }) {
     let sdFields: { [key: string]: any; } = {};
@@ -22,12 +22,12 @@ function sdPayload(fields: { [key: string]: any; }) {
     return sdFields;
 }
 
-const issueRequest = async (credentials: Array<Credential>, format?: string, issuerUrl?: string) => {
+const issueRequest = async (credentials: Array<Credential>, format?: CredentialFormats, issuerUrl?: string) => {
     if (credentials.length === 0) {
         throw new Error("No credentials provided for issuance");
     }
 
-    format = format ?? "JWT";
+    format = format ?? CredentialFormats.JWT;
     issuerUrl = issuerUrl ?? "https://issuer.portal.walt.id"
     const VC_REPO_URL = "https://credentials.walt.id"
 
@@ -55,7 +55,7 @@ const issueRequest = async (credentials: Array<Credential>, format?: string, iss
             throw new Error("Credential data requires credential subject");
         }
 
-        c = { ...c, didType: c.didType ? c.didType : "did:key" };
+        c = { ...c, didType: c.didType ? c.didType : DIDMethods.key };
 
         const credential = c.type ? (await axios(`${VC_REPO_URL}/api/vc/${c.type}`)).data : c.customCredential?.credentialData;
         const mapping = c.customMapping ? c.customMapping : (await axios(`${VC_REPO_URL}/api/mapping/${c.type}`)).data;
@@ -80,7 +80,7 @@ const issueRequest = async (credentials: Array<Credential>, format?: string, iss
             credentialData: offer
         }
 
-        if (format && format === "SD-JWT") {
+        if (format === CredentialFormats.SD_JWT) {
             payload.credentialConfigurationId = c.type ? Object.keys(credential_configurations_supported).find(key => key === c.type + "_vc+sd-jwt") as string : c.customCredential?.credentialConfigurationId as string;
             payload.selectiveDisclosure = {
                 "fields": {
@@ -97,7 +97,7 @@ const issueRequest = async (credentials: Array<Credential>, format?: string, iss
         return mapping ? { ...payload, mapping } : payload;
     }));
 
-    const issueUrl = issuerUrl + `/openid4vc/${credentials.length === 1 && format === "SD-JWT" ? "sdjwt" : "jwt"}/${(payload.length > 1 ? 'issueBatch' : 'issue')}`;
+    const issueUrl = issuerUrl + `/openid4vc/${credentials.length === 1 && format === CredentialFormats.SD_JWT ? CredentialFormats.SD_JWT : CredentialFormats.JWT}/${(payload.length > 1 ? 'issueBatch' : 'issue')}`;
     return axios.post(issueUrl, payload.length > 1 ? payload : payload[0]);
 }
 

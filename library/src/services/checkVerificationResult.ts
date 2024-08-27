@@ -35,9 +35,7 @@ export function waitForSuccess(
             } else {
                 console.log('Success', result.data);
                 clearInterval(intervalId); // Clear the interval
-                const credential =
-                    result.data.policyResults.results[1].policies[0].result.vc
-                        .credentialSubject;
+                const credential = result.data.policyResults;
                 resolve(credential); // Resolve promise with the success data
             }
         };

@@ -1,5 +1,5 @@
+import { Credential, CredentialFormats } from "../types/credentials";
 import { issueRequest } from "../services/issueRequest";
-import { Credential } from "../types/credentials";
 import { useStore } from "@builder.io/mitosis";
 import Button from "./Button.lite";
 import Modal from "./Modal.lite";
@@ -19,8 +19,8 @@ interface IssuanceButtonProps {
         lineHeight?: string;
     };
     credentials: Credential[];
-    format?: string;
-    walletRedirect?: { url?: string, path?: string, oidcUrl?: string, target?: string };
+    format?: CredentialFormats;
+    walletRedirect?: { url?: string, path?: string, target?: string };
 }
 
 export default function IssuanceButton(props: IssuanceButtonProps) {
@@ -46,7 +46,7 @@ export default function IssuanceButton(props: IssuanceButtonProps) {
     return (
         <div>
             <Button onClick={() => state.openModal()} buttonStyles={props.buttonStyles}>{props.title ?? 'Issue Credential'}</Button>
-            <Modal open={isModalOpen} qrCodeData={qrCodeData} dialogTitle="Scan QR Code" dialogDescription="Scan the QR code with your wallet to issue the credential" walletRedirect={props.walletRedirect} onClose={() => state.closeModal()} />
+            <Modal open={isModalOpen} qrCodeData={qrCodeData} dialogTitle="Scan QR Code" dialogDescription="Scan the QR code with your wallet to issue the credential" walletRedirect={props.walletRedirect ? { ...props.walletRedirect, path: props.walletRedirect?.path ?? 'api/siop/initiateIssuance', offerUrl: qrCodeData } : undefined} onClose={() => state.closeModal()} />
         </div>
     )
 }

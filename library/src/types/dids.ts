@@ -1,10 +1,10 @@
-export const DIDMethods = [
-    'did:jwk',
-    'did:key',
-    'did:ebsi',
-    'did:web',
-    'did:cheqd',
-]
+export enum DIDMethods {
+    'jwk' = 'did:jwk',
+    'key' = 'did:key',
+    'ebsi' = 'did:ebsi',
+    'web' = 'did:web',
+    'cheqd' = 'did:cheqd',
+}
 
 export const DIDMethodsConfig = {
     'did:key': {

@@ -7,7 +7,7 @@ import Modal from "./Modal.lite";
 import { useState } from "react";
 
 interface VerificationButtonProps {
-    title: string;
+    title?: string;
     buttonStyles?: {
         background?: string;
         color?: string;
@@ -20,12 +20,12 @@ interface VerificationButtonProps {
         lineHeight?: string;
     };
     credentialTypes: Array<string | { credential: string, policies: Array<string | object> }>;
-    globalVPPolicies: Array<string>,
-    globalVCPolicies: Array<string>,
-    presentationDefinition: object,
-    options: { vpSuccessWalletRedirectUri?: string, vpFailWalletRedirectUri?: string, openId4VPProfile?: string },
-    redirectUri: string,
-    walletRedirect: { url?: string, path?: string, oidcUrl?: string, target?: string },
+    globalVPPolicies?: Array<string>,
+    globalVCPolicies?: Array<string>,
+    presentationDefinition?: object,
+    options?: { vpSuccessWalletRedirectUri?: string, vpFailWalletRedirectUri?: string, openId4VPProfile?: string },
+    successRedirectUri?: string,
+    walletRedirect?: { url?: string, path?: string, target?: string },
 }
 
 export default function VerificationButton(props: VerificationButtonProps) {
@@ -57,7 +57,7 @@ export default function VerificationButton(props: VerificationButtonProps) {
                 }
                 setQrCodeData(data.url);
                 waitForSuccess(data.state).then(response => {
-                    window.location.href = `${props.redirectUri}?data=${encodeURIComponent(JSON.stringify(response))}`
+                    window.location.href = `${props.successRedirectUri ? props.successRedirectUri : "/success"}?data=${encodeURIComponent(JSON.stringify(response))}`
                 })
             }).catch(error => {
                 console.error('An error occurred:', error);
@@ -72,7 +72,7 @@ export default function VerificationButton(props: VerificationButtonProps) {
     return (
         <div>
             <Button onClick={() => state.openModal()} buttonStyles={props.buttonStyles}>{props.title ?? 'Verify Credential'}</Button>
-            <Modal open={isModalOpen} qrCodeData={qrCodeData} dialogTitle="Scan QR Code" dialogDescription="Scan the QR code to complete the verification process" walletRedirect={props.walletRedirect} onClose={() => state.closeModal()} />
+            <Modal open={isModalOpen} qrCodeData={qrCodeData} dialogTitle="Scan QR Code" dialogDescription="Scan the QR code to complete the verification process" walletRedirect={props.walletRedirect ? { ...props.walletRedirect, path: props.walletRedirect?.path ?? 'api/siop/initiatePresentation', offerUrl: qrCodeData, target: props.walletRedirect?.target ?? '_blank' } : undefined} onClose={() => state.closeModal()} />
         </div>
     )
 }

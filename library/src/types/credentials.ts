@@ -1,6 +1,8 @@
+import { DIDMethods } from "./dids";
+
 export type Credential = {
     type?: string;
-    didType?: string;
+    didType?: DIDMethods;
     customIssuer?: {
         did: string;
         key: {
@@ -18,4 +20,7 @@ export type Credential = {
     customMapping?: Object;
 };
 
-export const CredentialFormats = ['JWT', 'SD-JWT'];
+export enum CredentialFormats {
+    JWT = 'jwt',
+    SD_JWT = 'sdjwt',
+}
