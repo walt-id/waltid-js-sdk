@@ -42,9 +42,9 @@ import { useState } from "react";
  * ]
  * You can find a list of supported policies here: https://docs.walt.id/verifier/api/credential-verification/policies
  * @param presentationDefinition - provide a custom presentation definition
- * @param options -
- * vpSuccessWalletRedirectUri - Redirect URI to return when all policies passed. "$id" will be replaced with the session id.
- * vpFailWalletRedirectUri - Redirect URI to return when a policy failed. "$id" will be replaced with the session id.
+ * @param verifierAPIParameters -
+ * successRedirectUri - Redirect URI to return when all policies passed. "$id" will be replaced with the session id.
+ * errorRedirectUri - Redirect URI to return when a policy failed. "$id" will be replaced with the session id.
  * openId4VPProfile - Optional header to set the profile of the VP request Available Profiles: DEFAULT: For W3C OpenID4VP, ISO_18013_7_MDOC: For MDOC OpenID4VP, EBSIV3: For EBSI V3 Compliant VP. Defaults to DEFAULT
  * @param redirectUri - Redirect the user on successful presentation to a specific URL in your application
  * @param walletRedirect - // TODO example
@@ -63,13 +63,10 @@ interface VerificationButtonProps {
         lineHeight?: string;
     };
     credentialTypes: Array<string | { credential: string, policies: Array<string | object> }>;
-    // TODO can be of type string or object
-    globalVPPolicies?: Array<string>,
-    // TODO can be of type string or object
-    globalVCPolicies?: Array<string>,
+    globalVPPolicies?: Array<string | object>,
+    globalVCPolicies?: Array<string | object>,
     presentationDefinition?: object,
-    // TODO update vpSuccessWalletRedirectUri and vpFailWalletRedirectUri to use the same names as in the API request
-    options?: { vpSuccessWalletRedirectUri?: string, vpFailWalletRedirectUri?: string, openId4VPProfile?: string },
+    verifierAPIParameters?: { successRedirectUri?: string, errorRedirectUri?: string, openId4VPProfile?: string },
     successRedirectUri?: string,
     walletRedirect?: { url?: string, path?: string, target?: string },
 }
@@ -92,8 +89,8 @@ export default function VerificationButton(props: VerificationButtonProps) {
             if (props.globalVCPolicies && props.globalVCPolicies?.length > 0) {
                 verifyRequestProps.globalVCPolicies = props.globalVCPolicies
             }
-            if (props.options) {
-                verifyRequestProps.options = props.options
+            if (props.verifierAPIParameters) {
+                verifyRequestProps.verifierAPIParameters = props.verifierAPIParameters
             }
 
             verifyRequest(verifyRequestProps).then((response) => {

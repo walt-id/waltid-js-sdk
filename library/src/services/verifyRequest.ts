@@ -8,7 +8,7 @@ function getStateFromURL(input: string): string {
 }
 
 export async function verifyRequest(props: verifyRequestProps): Promise<{ error: boolean, data: any }> {
-    const { credentials, globalVPPolicies, globalVCPolicies, presentationDefinition, options } = props;
+    const { credentials, globalVPPolicies, globalVCPolicies, presentationDefinition, verifierAPIParameters } = props;
 
     const data: verifyRequestData = {
         request_credentials: credentials
@@ -29,14 +29,14 @@ export async function verifyRequest(props: verifyRequestProps): Promise<{ error:
             responseMode: 'direct_post',
         },
     };
-    if (options?.vpSuccessWalletRedirectUri) {
-        config.headers.successRedirectUri = options?.vpSuccessWalletRedirectUri;
+    if (verifierAPIParameters?.successRedirectUri) {
+        config.headers.successRedirectUri = verifierAPIParameters?.successRedirectUri;
     }
-    if (options?.vpFailWalletRedirectUri) {
-        config.headers.errorRedirectUri = options?.vpFailWalletRedirectUri;
+    if (verifierAPIParameters?.errorRedirectUri) {
+        config.headers.errorRedirectUri = verifierAPIParameters?.errorRedirectUri;
     }
-    if (options?.openId4VPProfile) {
-        config.headers.openId4VPProfile = options?.openId4VPProfile;
+    if (verifierAPIParameters?.openId4VPProfile) {
+        config.headers.openId4VPProfile = verifierAPIParameters?.openId4VPProfile;
     }
 
     try {
