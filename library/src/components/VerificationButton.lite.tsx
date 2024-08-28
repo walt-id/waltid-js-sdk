@@ -45,9 +45,15 @@ import { useState } from "react";
  * @param verifierAPIParameters -
  * successRedirectUri - Redirect URI to return when all policies passed. "$id" will be replaced with the session id.
  * errorRedirectUri - Redirect URI to return when a policy failed. "$id" will be replaced with the session id.
- * openId4VPProfile - Optional header to set the profile of the VP request Available Profiles: DEFAULT: For W3C OpenID4VP, ISO_18013_7_MDOC: For MDOC OpenID4VP, EBSIV3: For EBSI V3 Compliant VP. Defaults to DEFAULT
- * @param redirectUri - Redirect the user on successful presentation to a specific URL in your application
- * @param walletRedirect - // TODO example
+ * openId4VPProfile - Optional header to set the profile of the VP request. Available Profiles: DEFAULT: For W3C OpenID4VP, ISO_18013_7_MDOC: For MDOC OpenID4VP, EBSIV3: For EBSI V3 Compliant VP. Defaults to DEFAULT
+ * @param successRedirectUri - Redirect the user on successful presentation to a specific URL in the application where this component is used.
+ * @param walletRedirect - In case you want to use the same-device flow, where the user clicks a button rather than scans a QR code to fulfill the credential presentation request.
+ *   This parameter can be used to specify the endpoint of the wallet handling same-device flows. The example below specifies the walt.id web wallet endpoint used to process same-device flow presentations.
+ *   Example:
+ *   walletRedirect={{
+ *   "url": "https://wallet.walt.id",
+ *   "path": "api/siop/initiatePresentation"
+ *   }}
  */
 interface VerificationButtonProps {
     title?: string;
