@@ -1,8 +1,8 @@
-import {IssuanceButton, VerificationButton, CredentialFormats, DIDMethods} from 'waltid-react-components'
+import { IssuanceButton, VerificationButton, CredentialFormats, DIDMethods } from 'waltid-react-components'
 
 function App() {
     return (
-        <div style={{fontFamily: "poppins"}}>
+        <div style={{ fontFamily: "poppins" }}>
             <div style={{
                 display: 'flex',
                 justifyContent: 'center',
@@ -11,7 +11,7 @@ function App() {
                 flexDirection: 'row',
                 gap: '40px'
             }}>
-                <div style={{textAlign: "center"}}>
+                <div style={{ textAlign: "center" }}>
                     <p>Issue Credentials</p>
 
                     <div style={{
@@ -21,7 +21,7 @@ function App() {
                     }}>
 
                         {/*BASIC ISSUANCE EXAMPLE*/}
-                        <IssuanceButton title="Basic Example" credentials={[{"type": "eID"}]}/>
+                        <IssuanceButton title="Basic Example" credentials={[{ "type": "eID" }]} />
 
                         {/*ADVANCED ISSUANCE EXAMPLE*/}
                         <IssuanceButton
@@ -38,13 +38,13 @@ function App() {
                                     customIssuer: {
                                         did: "test",
                                         key: {
-                                            jwk: `{
-                                        "kty": "OKP",
-                                        "d": "mDhpwaH6JYSrD2Bq7Cs-pzmsjlLj4EOhxyI-9DM1mFI",
-                                        "crv": "Ed25519",
-                                        "kid": "Vzx7l5fh56F3Pf9aR3DECU5BwfrY6ZJe05aiWYWzan8",
-                                        "x": "T3T4-u1Xz3vAV2JwPNxWfs4pik_JLiArz_WTCvrCFUM"
-                                    }`,
+                                            jwk: {
+                                                "kty": "OKP",
+                                                "d": "mDhpwaH6JYSrD2Bq7Cs-pzmsjlLj4EOhxyI-9DM1mFI",
+                                                "crv": "Ed25519",
+                                                "kid": "Vzx7l5fh56F3Pf9aR3DECU5BwfrY6ZJe05aiWYWzan8",
+                                                "x": "T3T4-u1Xz3vAV2JwPNxWfs4pik_JLiArz_WTCvrCFUM"
+                                            },
                                             type: "jwk"
                                         }
                                     },
@@ -133,7 +133,7 @@ function App() {
                 </div>
 
 
-                <div style={{textAlign: "center"}}>
+                <div style={{ textAlign: "center" }}>
                     <p>Verify Credentials</p>
 
                     <div style={{
@@ -143,12 +143,12 @@ function App() {
                     }}>
 
                         {/*BASIC VERIFICATION EXAMPLE*/}
-                        <VerificationButton title="Basic Example" credentialTypes={["eID"]}/>
+                        <VerificationButton title="Basic Example" credentialTypes={["eID"]} />
 
                         {/*ADVANCED VERIFICATION EXAMPLES*/}
                         <VerificationButton
                             title="Advanced Example"
-                            credentialTypes={[{credential: "eID", policies: ["schema"]}]}
+                            credentialTypes={[{ credential: "eID", policies: ["schema"] }]}
                             presentationDefinition={{
                                 "input_descriptors": [
                                     {

@@ -7,7 +7,7 @@ export type Credential = {
         did: string;
         key: {
             type: string;
-            jwk: string;
+            jwk: object;
         };
     };
     customCredential?: {
