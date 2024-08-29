@@ -21,5 +21,5 @@ export default defineConfig({
             },
         },
     },
-    plugins: [vue(), dts(), cssInjectedByJsPlugin()],
+    plugins: [vue(), dts({ rollupTypes: true }), cssInjectedByJsPlugin()],
 })
