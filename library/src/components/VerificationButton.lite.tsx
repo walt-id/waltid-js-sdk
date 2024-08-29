@@ -6,6 +6,55 @@ import Button from "./Button.lite";
 import Modal from "./Modal.lite";
 import { useState } from "react";
 
+/**
+ * @param title - Button text
+ * @param buttonStyles - Customise the button look to your look and feel. You can provide any of the following styles:
+ * buttonStyles={
+ *         background: "#000";
+ *         color: "#fff";
+ *         margin: "1px 1px 1px 1px";
+ *         padding: "1px 1px 1px 1px";
+ *         border: "5px solid red";
+ *         borderRadius: "1px";
+ *         fontSize: "18px";
+ *         fontWeight: "normal";
+ *         lineHeight: "normal";
+ *     };
+ * @param credentialTypes - Lists of objects which specify the credential type to request via the credential key
+ * and the policies to apply to the requested credential via the policies key.
+ * Example:
+ * {credential: "eID", policies: ["schema", {
+ *   "policy": "webhook",
+ *   "args": "https://example.org/abc/xyz"
+ * }]}
+ * You can find a list of supported policies here: https://docs.walt.id/verifier/api/credential-verification/policies
+ * @param globalVPPolicies -  When requesting W3C credentials, you can apply a list of VP to the VerifiablePresentation
+ * that wraps the presented credentials.
+ * Example:
+ * [{
+ *       "policy": "minimum-credentials",
+ *       "args": 2
+ * }]
+ * You can find a list of supported policies here: https://docs.walt.id/verifier/api/credential-verification/policies
+ * @param globalVCPolicies - A list of policies to apply to all requested credentials.
+ * [
+ *     "signature"
+ * ]
+ * You can find a list of supported policies here: https://docs.walt.id/verifier/api/credential-verification/policies
+ * @param presentationDefinition - provide a custom presentation definition
+ * @param verifierAPIParameters -
+ * successRedirectUri - Redirect URI to return when all policies passed. "$id" will be replaced with the session id.
+ * errorRedirectUri - Redirect URI to return when a policy failed. "$id" will be replaced with the session id.
+ * openId4VPProfile - Optional header to set the profile of the VP request. Available Profiles: DEFAULT: For W3C OpenID4VP, ISO_18013_7_MDOC: For MDOC OpenID4VP, EBSIV3: For EBSI V3 Compliant VP. Defaults to DEFAULT
+ * @param successRedirectUri - Redirect the user on successful presentation to a specific URL in the application where this component is used.
+ * @param walletRedirect - In case you want to use the same-device flow, where the user clicks a button rather than scans a QR code to fulfill the credential presentation request.
+ *   This parameter can be used to specify the endpoint of the wallet handling same-device flows. The example below specifies the walt.id web wallet endpoint used to process same-device flow presentations.
+ *   Example:
+ *   walletRedirect={{
+ *   "url": "https://wallet.walt.id",
+ *   "path": "api/siop/initiatePresentation"
+ *   }}
+ */
 interface VerificationButtonProps {
     title?: string;
     buttonStyles?: {
@@ -20,10 +69,10 @@ interface VerificationButtonProps {
         lineHeight?: string;
     };
     credentialTypes: Array<string | { credential: string, policies: Array<string | object> }>;
-    globalVPPolicies?: Array<string>,
-    globalVCPolicies?: Array<string>,
+    globalVPPolicies?: Array<string | object>,
+    globalVCPolicies?: Array<string | object>,
     presentationDefinition?: object,
-    options?: { vpSuccessWalletRedirectUri?: string, vpFailWalletRedirectUri?: string, openId4VPProfile?: string },
+    verifierAPIParameters?: { successRedirectUri?: string, errorRedirectUri?: string, openId4VPProfile?: string },
     successRedirectUri?: string,
     walletRedirect?: { url?: string, path?: string, target?: string },
 }
@@ -46,8 +95,8 @@ export default function VerificationButton(props: VerificationButtonProps) {
             if (props.globalVCPolicies && props.globalVCPolicies?.length > 0) {
                 verifyRequestProps.globalVCPolicies = props.globalVCPolicies
             }
-            if (props.options) {
-                verifyRequestProps.options = props.options
+            if (props.verifierAPIParameters) {
+                verifyRequestProps.verifierAPIParameters = props.verifierAPIParameters
             }
 
             verifyRequest(verifyRequestProps).then((response) => {
